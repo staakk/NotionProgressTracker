@@ -15,5 +15,10 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "NotionProgressTracker"
-include(":androidApp")
-include(":shared")
+include(
+    ":androidApp",
+    ":data",
+    ":domain",
+    ":shared",
+    ":ui"
+)

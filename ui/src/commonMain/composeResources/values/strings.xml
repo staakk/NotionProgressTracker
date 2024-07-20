@@ -1,0 +1,7 @@
+<resources>
+    <string name="screen_entry_label_exercise">Exercise</string>
+    <string name="screen_entry_label_repetitions">Repetitions</string>
+    <string name="screen_entry_label_weight">Weight</string>
+    <string name="screen_entry_label_date">Date</string>
+    <string name="screen_entry_button_confirm">Confirm</string>
+</resources>
