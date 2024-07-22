@@ -9,10 +9,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -27,9 +29,13 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.intl.Locale
+import androidx.compose.ui.text.toLowerCase
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.PopupProperties
 import io.github.staakk.nptracker.Dimens
+import io.github.staakk.nptracker.Entry
+import io.github.staakk.nptracker.EntryCompact
 import io.github.staakk.nptracker.framework.DateInput
 import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
@@ -60,8 +66,36 @@ fun EntryScreen() {
                 date = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date,
                 onDateChanged = {}
             )
+            LastEntries("Dead lift")
             Spacer(Modifier.weight(1f))
             ConfirmButton { }
+        }
+    }
+}
+
+@Composable
+private fun ColumnScope.LastEntries(
+    exerciseName: String,
+) {
+    Text(
+        text = "Last entries for ${exerciseName.toLowerCase(Locale.current)}",
+        style = MaterialTheme.typography.titleSmall,
+    )
+    LazyColumn(
+        verticalArrangement = Arrangement.spacedBy(Dimens.standard)
+    ) {
+        repeat(3) {
+            item {
+                EntryCompact(
+                    Entry(
+                        exercise = "Dead lift",
+                        repetitions = 10,
+                        weight = 120f,
+                        date = Clock.System.now()
+                            .toLocalDateTime(TimeZone.currentSystemDefault()),
+                    )
+                )
+            }
         }
     }
 }

@@ -4,4 +4,6 @@
     <string name="screen_entry_label_weight">Weight</string>
     <string name="screen_entry_label_date">Date</string>
     <string name="screen_entry_button_confirm">Confirm</string>
+
+    <string name="reps_times_weight_kg">%1$s × %2$skg</string>
 </resources>
