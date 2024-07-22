@@ -21,12 +21,6 @@ import kotlinx.datetime.LocalDate
 import kotlinx.datetime.minus
 import kotlinx.datetime.plus
 
-private val dateFormat = LocalDate.Format {
-    dayOfMonth()
-    monthNumber()
-    yearTwoDigits(2000)
-}
-
 @Composable
 fun DateInput(
     modifier: Modifier = Modifier,
@@ -34,14 +28,17 @@ fun DateInput(
     onDateChanged: (LocalDate) -> Unit,
     label: @Composable () -> Unit = {},
 ) {
-    var input by remember { mutableStateOf(TextFieldValue(dateFormat.format(date))) }
+    var input by remember {
+        mutableStateOf(TextFieldValue(Format.dateInputInternal.format(date)))
+    }
     OutlinedTextField(
         modifier = Modifier.fillMaxWidth().then(modifier),
         value = input,
         visualTransformation = visualTransformation,
         onValueChange = { newInput ->
             onValueChanged(input, newInput)?.let { result ->
-                if (input.text != result.text) onDateChanged(dateFormat.parse(result.text))
+                if (input.text != result.text)
+                    onDateChanged(Format.dateInputInternal.parse(result.text))
                 input = result
             }
         },
@@ -110,7 +107,7 @@ private fun CharArray.correctDate(): String = let { output ->
 
     // Now date is correct to the month, and the day can be corrected
     val firstOfMonth = output.dateAtFirstOfMonth()
-    val maxDay = dateFormat.parse(firstOfMonth)
+    val maxDay = Format.dateInputInternal.parse(firstOfMonth)
         .maxDayOfMonth()
         .toString()
     // First digit of day cannot be larger than max day first digit
