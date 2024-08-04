@@ -1,5 +1,9 @@
+import io.github.staakk.nptracker.GenerateKeyValuesTask
+
 plugins {
-    alias(libs.plugins.kotlinMultiplatform)
+    id(libs.plugins.kotlinMultiplatform.get().pluginId)
+    alias(libs.plugins.kotlinxSerialization)
+    id("io.github.staakk.nptracker.generatekeyvalues")
 }
 
 kotlin {
@@ -12,10 +16,21 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            //put your multiplatform dependencies here
+            implementation(project(":domain"))
+            implementation(libs.kotlinx.serialization.json)
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.cio)
+            implementation(project.dependencies.platform(libs.koin.bom))
+            implementation(libs.koin.core)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }
     }
+}
+
+tasks.register<GenerateKeyValuesTask>("generateSecrets") {
+    inputFile = File("secrets.properties")
+    outputPackage = "io.github.staakk.nptracker"
+    outputClassName = "Secrets"
 }

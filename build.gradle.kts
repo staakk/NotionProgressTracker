@@ -1,8 +1,9 @@
 plugins {
-    alias(libs.plugins.androidApplication) apply false
-    alias(libs.plugins.androidLibrary) apply false
-    alias(libs.plugins.kotlinAndroid) apply false
-    alias(libs.plugins.kotlinMultiplatform) apply false
+    id(libs.plugins.androidApplication.get().pluginId) apply false
+    id(libs.plugins.androidLibrary.get().pluginId) apply false
+    id(libs.plugins.kotlinAndroid.get().pluginId) apply false
+    id(libs.plugins.kotlinMultiplatform.get().pluginId) apply false
     alias(libs.plugins.compose.compiler) apply false
     alias(libs.plugins.jetbrainsCompose) apply false
+    alias(libs.plugins.kotlinxSerialization) apply false
 }
