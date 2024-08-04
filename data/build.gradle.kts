@@ -20,6 +20,9 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.cio)
+            implementation(libs.ktor.client.logging)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.json)
             implementation(project.dependencies.platform(libs.koin.bom))
             implementation(libs.koin.core)
         }
@@ -30,7 +33,7 @@ kotlin {
 }
 
 tasks.register<GenerateKeyValuesTask>("generateSecrets") {
-    inputFile = File("secrets.properties")
+    inputFile = File(projectDir, "/secrets.properties")
     outputPackage = "io.github.staakk.nptracker"
     outputClassName = "Secrets"
 }

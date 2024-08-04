@@ -25,7 +25,7 @@ abstract class MviViewModel<State, Event>(initial: State) : ViewModel() {
         MutableStateFlow(initial)
     val state: StateFlow<State> = mutableState.asStateFlow()
 
-    protected abstract fun handleEvent(event: Event): Action<State, Event>
+    protected abstract suspend fun handleEvent(event: Event): Action<State, Event>
 
     init {
         mutableEvents
@@ -44,8 +44,8 @@ abstract class MviViewModel<State, Event>(initial: State) : ViewModel() {
         viewModelScope.launch { mutableEvents.emit(event) }
     }
 
-    protected inline fun action(
-        crossinline f: (State) -> State,
+    protected suspend inline fun action(
+        crossinline f: suspend (State) -> State,
     ) = Action { state: State ->
         ActionResult(f(state), null as Event?)
     }

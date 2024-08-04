@@ -52,16 +52,19 @@ import notionprogresstracker.ui.generated.resources.screen_entry_label_exercise
 import notionprogresstracker.ui.generated.resources.screen_entry_label_repetitions
 import notionprogresstracker.ui.generated.resources.screen_entry_label_weight
 import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.currentKoinScope
+import org.koin.compose.koinInject
 
 @Composable
 fun EntryScreen() {
-    ScreenContent()
+    val koinScope = currentKoinScope()
+    val viewModel = viewModel { koinScope.get<EntryViewModel>() }
+    val state by viewModel.state.collectAsState()
+    ScreenContent(state, viewModel::dispatch)
 }
 
 @Composable
-private fun ScreenContent() {
-    val viewModel = viewModel { EntryViewModel() }
-    val state by viewModel.state.collectAsState()
+private fun ScreenContent(state: EntryScreenState, dispatch: (EntryEvent) -> Unit) {
     Scaffold { padding ->
         Column(
             modifier = Modifier
@@ -74,20 +77,20 @@ private fun ScreenContent() {
                 ExerciseSelection(
                     exercise,
                     state.availableExercises,
-                ) { viewModel.dispatch(EntryEvent.ExerciseChanged(it)) }
-                Repetitions(repetitions) { viewModel.dispatch(EntryEvent.RepetitionsChanged(it)) }
+                ) { dispatch(EntryEvent.ExerciseChanged(it)) }
+                Repetitions(repetitions) { dispatch(EntryEvent.RepetitionsChanged(it)) }
                 WeightField(
                     weight,
-                    onValueChanged = { viewModel.dispatch(EntryEvent.WeightChanged(it)) }
+                    onValueChanged = { dispatch(EntryEvent.WeightChanged(it)) }
                 )
                 Date(
                     date = date.date,
-                    onDateChanged = { viewModel.dispatch(EntryEvent.DateChanged(it)) }
+                    onDateChanged = { dispatch(EntryEvent.DateChanged(it)) }
                 )
             }
             LastEntries(state.entry.exercise)
             Spacer(Modifier.weight(1f))
-            ConfirmButton { viewModel.dispatch(EntryEvent.ConfirmClicked) }
+            ConfirmButton { dispatch(EntryEvent.ConfirmClicked) }
         }
     }
 }

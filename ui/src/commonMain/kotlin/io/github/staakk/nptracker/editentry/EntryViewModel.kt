@@ -1,5 +1,6 @@
 package io.github.staakk.nptracker.editentry
 
+import io.github.staakk.nptracker.domain.GetAvailableExercises
 import io.github.staakk.nptracker.editentry.EntryEvent.ConfirmClicked
 import io.github.staakk.nptracker.editentry.EntryEvent.DateChanged
 import io.github.staakk.nptracker.editentry.EntryEvent.ExerciseChanged
@@ -9,7 +10,9 @@ import io.github.staakk.nptracker.framework.MviViewModel
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.atTime
 
-internal class EntryViewModel : MviViewModel<EntryScreenState, EntryEvent>(
+internal class EntryViewModel(
+    private val getAvailableExercises: GetAvailableExercises,
+) : MviViewModel<EntryScreenState, EntryEvent>(
     EntryScreenState(
         entry = Entry(
             exercise = "Dead lift",
@@ -22,7 +25,15 @@ internal class EntryViewModel : MviViewModel<EntryScreenState, EntryEvent>(
     )
 ) {
 
-    override fun handleEvent(event: EntryEvent) = when (event) {
+    init {
+        dispatch(EntryEvent.ScreenLaunched)
+    }
+
+    override suspend fun handleEvent(event: EntryEvent) = when (event) {
+        is EntryEvent.ScreenLaunched -> action {
+                it.copy(availableExercises = getAvailableExercises().getOrDefault(emptyList()))
+        }
+
         is RepetitionsChanged ->
             action { it.copy(entry = it.entry.copy(repetitions = event.repetitions)) }
 

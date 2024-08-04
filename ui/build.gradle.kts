@@ -25,7 +25,12 @@ kotlin {
 
             implementation(libs.kotlinx.datetime)
 
+            implementation(project(":data"))
             implementation(project(":domain"))
+
+            implementation(project.dependencies.platform(libs.koin.bom))
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

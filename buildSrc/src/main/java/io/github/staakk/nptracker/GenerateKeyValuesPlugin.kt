@@ -2,6 +2,7 @@ package io.github.staakk.nptracker
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 
 class GenerateKeyValuesPlugin : Plugin<Project> {
@@ -9,7 +10,11 @@ class GenerateKeyValuesPlugin : Plugin<Project> {
         target.afterEvaluate {
             target.kotlinExtension.sourceSets.named("commonMain").configure {
                 kotlin {
-                    srcDir("build/generated/keyvalues/kotlin")
+                    srcDirs(
+                        *tasks
+                            .withType(GenerateKeyValuesTask::class)
+                            .toTypedArray()
+                    )
                 }
             }
         }
