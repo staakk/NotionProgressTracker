@@ -12,8 +12,10 @@ import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.logging.SIMPLE
 import io.ktor.client.request.bearerAuth
 import io.ktor.client.request.header
+import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.URLProtocol
+import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
@@ -32,6 +34,7 @@ fun HttpClientConfig<*>.notionDefaultRequest() = defaultRequest {
     }
 
     bearerAuth(Secrets.notionApiSecret)
+    contentType(ContentType.Application.Json)
     header("Notion-Version", "2022-06-28")
 }
 

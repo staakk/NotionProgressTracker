@@ -23,8 +23,6 @@ kotlin {
             implementation(project.dependencies.platform(libs.koin.bom))
             implementation(libs.koin.core)
 
-            implementation(libs.kotlinx.datetime)
-
             implementation(project(":data"))
             implementation(project(":domain"))
 

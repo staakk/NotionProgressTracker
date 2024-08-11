@@ -1,4 +1,5 @@
-package io.github.staakk.nptracker.editentry
+package io.github.staakk.nptracker.shared
+
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -12,20 +13,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import io.github.staakk.nptracker.Dimens
-import io.github.staakk.nptracker.domain.Repetitions
-import io.github.staakk.nptracker.domain.Weight
+import io.github.staakk.nptracker.domain.Entry
 import io.github.staakk.nptracker.domain.WeightFormatter
-import io.github.staakk.nptracker.domain.kg
 import io.github.staakk.nptracker.framework.Format
-import kotlinx.datetime.Clock
-import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 import notionprogresstracker.ui.generated.resources.Res
 import notionprogresstracker.ui.generated.resources.reps_times_weight_kg
 import org.jetbrains.compose.resources.stringResource
-import kotlin.math.pow
-import kotlin.math.roundToInt
 
 @Composable
 fun EntryCompact(
@@ -55,11 +48,3 @@ fun EntryCompact(
         Text(Format.dateDefault.format(item.date.date))
     }
 }
-
-
-data class Entry(
-    val exercise: String = "",
-    val repetitions: Repetitions = Repetitions(0),
-    val weight: Weight = 0.kg,
-    val date: LocalDateTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()),
-)

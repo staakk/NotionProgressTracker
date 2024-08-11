@@ -1,6 +1,7 @@
 package io.github.staakk.nptracker.editentry
 
-import io.github.staakk.nptracker.domain.GetAvailableExercises
+import io.github.staakk.nptracker.domain.Entry
+import io.github.staakk.nptracker.domain.usecase.GetAvailableExercises
 import io.github.staakk.nptracker.editentry.EntryEvent.ConfirmClicked
 import io.github.staakk.nptracker.editentry.EntryEvent.DateChanged
 import io.github.staakk.nptracker.editentry.EntryEvent.ExerciseChanged

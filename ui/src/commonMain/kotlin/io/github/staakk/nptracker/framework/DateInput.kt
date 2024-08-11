@@ -22,7 +22,7 @@ import kotlinx.datetime.minus
 import kotlinx.datetime.plus
 
 @Composable
-fun DateInput(
+fun DateField(
     modifier: Modifier = Modifier,
     date: LocalDate,
     onDateChanged: (LocalDate) -> Unit,

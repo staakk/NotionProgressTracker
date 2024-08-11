@@ -1,16 +1,10 @@
-package io.github.staakk.nptracker.data
+package io.github.staakk.nptracker.data.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class JsonDatabase(
-    val id: String,
-    val properties: Map<String, Property>
-)
-
-@Serializable
-sealed class Property {
+sealed class JsonColumnProperty {
     abstract val id: String
     abstract val name: String
 
@@ -20,7 +14,7 @@ sealed class Property {
         override val id: String,
         override val name: String,
         val select: SelectProperties,
-    ) : Property() {
+    ) : JsonColumnProperty() {
 
         @Serializable
         data class SelectProperties(
@@ -36,17 +30,17 @@ sealed class Property {
 
     @Serializable
     @SerialName("created_time")
-    data class CreatedTime(override val id: String, override val name: String): Property()
+    data class CreatedTime(override val id: String, override val name: String): JsonColumnProperty()
 
     @Serializable
     @SerialName("number")
-    data class Number(override val id: String, override val name: String): Property()
+    data class Number(override val id: String, override val name: String): JsonColumnProperty()
 
     @Serializable
     @SerialName("date")
-    data class Date(override val id: String, override val name: String): Property()
+    data class Date(override val id: String, override val name: String): JsonColumnProperty()
 
     @Serializable
     @SerialName("title")
-    data class Title(override val id: String, override val name: String): Property()
+    data class Title(override val id: String, override val name: String): JsonColumnProperty()
 }

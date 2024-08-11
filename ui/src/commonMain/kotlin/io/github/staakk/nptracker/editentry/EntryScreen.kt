@@ -36,11 +36,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.PopupProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
 import io.github.staakk.nptracker.Dimens
+import io.github.staakk.nptracker.domain.Entry
 import io.github.staakk.nptracker.domain.Repetitions
 import io.github.staakk.nptracker.domain.Weight
 import io.github.staakk.nptracker.domain.WeightFormatter
 import io.github.staakk.nptracker.domain.kg
-import io.github.staakk.nptracker.framework.DateInput
+import io.github.staakk.nptracker.framework.DateField
+import io.github.staakk.nptracker.shared.EntryCompact
 import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
@@ -53,7 +55,6 @@ import notionprogresstracker.ui.generated.resources.screen_entry_label_repetitio
 import notionprogresstracker.ui.generated.resources.screen_entry_label_weight
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.currentKoinScope
-import org.koin.compose.koinInject
 
 @Composable
 fun EntryScreen() {
@@ -211,7 +212,7 @@ private fun Date(
     date: LocalDate,
     onDateChanged: (LocalDate) -> Unit
 ) {
-    DateInput(
+    DateField(
         date = date,
         onDateChanged = onDateChanged,
         label = { Text(stringResource(Res.string.screen_entry_label_date)) }

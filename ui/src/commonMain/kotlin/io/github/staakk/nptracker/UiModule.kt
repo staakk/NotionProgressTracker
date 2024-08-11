@@ -7,6 +7,7 @@ import androidx.compose.runtime.rememberUpdatedState
 import io.github.staakk.nptracker.data.dataModule
 import io.github.staakk.nptracker.domain.domainModule
 import io.github.staakk.nptracker.editentry.EntryViewModel
+import io.github.staakk.nptracker.entries.EntriesViewModel
 import org.koin.compose.currentKoinScope
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.parameter.ParametersHolder
@@ -24,6 +25,7 @@ val uiModule = module {
     )
 
     factoryOf(::EntryViewModel)
+    factoryOf(::EntriesViewModel)
 }
 
 @Composable

@@ -7,4 +7,5 @@ internal fun json() = Json {
     isLenient = true
     ignoreUnknownKeys = true
     encodeDefaults = true
+    explicitNulls = false
 }
