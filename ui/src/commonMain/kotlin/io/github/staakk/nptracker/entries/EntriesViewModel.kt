@@ -1,11 +1,7 @@
 package io.github.staakk.nptracker.entries
 
-import io.github.staakk.nptracker.domain.Repetitions
-import io.github.staakk.nptracker.domain.Weight
-import io.github.staakk.nptracker.domain.Entry
 import io.github.staakk.nptracker.domain.usecase.GetLatestEntries
 import io.github.staakk.nptracker.framework.MviViewModel
-import kotlinx.datetime.LocalDateTime
 
 internal class EntriesViewModel(
     private val getLatestEntries: GetLatestEntries,
@@ -16,8 +12,13 @@ internal class EntriesViewModel(
     }
 
     override suspend fun handleEvent(event: EntriesEvent) = when (event) {
-        EntriesEvent.ScreenLaunched -> action {
+        EntriesEvent.ScreenLaunched -> transform {
             it.copy(entries = getLatestEntries().getOrDefault(emptyList()))
+        }
+        EntriesEvent.AddNew -> consume {
+        }
+        is EntriesEvent.EditEntry -> consume {
+            val (selected) = event
         }
     }
 }

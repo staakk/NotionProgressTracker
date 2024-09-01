@@ -31,18 +31,18 @@ internal class EntryViewModel(
     }
 
     override suspend fun handleEvent(event: EntryEvent) = when (event) {
-        is EntryEvent.ScreenLaunched -> action {
+        is EntryEvent.ScreenLaunched -> transform {
                 it.copy(availableExercises = getAvailableExercises().getOrDefault(emptyList()))
         }
 
         is RepetitionsChanged ->
-            action { it.copy(entry = it.entry.copy(repetitions = event.repetitions)) }
+            transform { it.copy(entry = it.entry.copy(repetitions = event.repetitions)) }
 
-        is ExerciseChanged -> action { it.copy(entry = it.entry.copy(exercise = event.exercise)) }
-        is WeightChanged -> action { it.copy(entry = it.entry.copy(weight = event.weight)) }
-        is ConfirmClicked -> action { it.copy(isLoading = true) }
+        is ExerciseChanged -> transform { it.copy(entry = it.entry.copy(exercise = event.exercise)) }
+        is WeightChanged -> transform { it.copy(entry = it.entry.copy(weight = event.weight)) }
+        is ConfirmClicked -> transform { it.copy(isLoading = true) }
 
-        is DateChanged -> action {
+        is DateChanged -> transform {
             it.copy(
                 entry = it.entry.copy(
                     date = event.date.atTime(LocalTime(0, 0, 0))

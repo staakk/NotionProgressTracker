@@ -44,9 +44,16 @@ abstract class MviViewModel<State, Event>(initial: State) : ViewModel() {
         viewModelScope.launch { mutableEvents.emit(event) }
     }
 
-    protected suspend inline fun action(
+    protected suspend inline fun transform(
         crossinline f: suspend (State) -> State,
     ) = Action { state: State ->
         ActionResult(f(state), null as Event?)
+    }
+
+    protected suspend inline fun consume(
+        crossinline f: suspend (State) -> Unit,
+    ) = Action { state: State ->
+        f(state)
+        ActionResult(state, null as Event?)
     }
 }
