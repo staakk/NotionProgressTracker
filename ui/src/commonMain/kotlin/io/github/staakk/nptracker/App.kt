@@ -9,10 +9,15 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import io.github.staakk.nptracker.data.dataModule
+import io.github.staakk.nptracker.domain.EntryId
 import io.github.staakk.nptracker.domain.domainModule
 import io.github.staakk.nptracker.editentry.EntryScreen
 import io.github.staakk.nptracker.entries.EntriesScreen
+import io.github.staakk.nptracker.entries.EntriesScreenNavigator
+import io.github.staakk.nptracker.framework.navigation.EntryIdNavType
+import kotlinx.serialization.Serializable
 import org.koin.compose.KoinApplication
+import kotlin.reflect.typeOf
 
 @Composable
 fun App() {
@@ -33,17 +38,19 @@ fun App() {
 @Composable
 private fun Navigation() {
     val navController = rememberNavController()
-    NavHost(navController, startDestination = Screen.Entries.route) {
-        composable(Screen.Entries.route) {
-            EntriesScreen()
+    NavHost(navController, startDestination = Screen.Entries) {
+        composable<Screen.Entries> {
+            EntriesScreen(EntriesScreenNavigator(navController))
         }
-        composable(Screen.Entry.route) {
+        composable<Screen.Entry>(typeMap = mapOf(EntryIdNavType.typeMap)) {
             EntryScreen()
         }
     }
 }
 
-sealed class Screen(val route: String) {
-    data object Entries : Screen("entries")
-    data object Entry : Screen("entry")
+sealed interface Screen {
+    @Serializable
+    data object Entries : Screen
+    @Serializable
+    data class Entry(val entryId: EntryId?) : Screen
 }

@@ -5,6 +5,7 @@ import io.github.staakk.nptracker.framework.MviViewModel
 
 internal class EntriesViewModel(
     private val getLatestEntries: GetLatestEntries,
+    private val navigator: EntriesScreenNavigator,
 ) : MviViewModel<EntriesState, EntriesEvent>(EntriesState()) {
 
     init {
@@ -16,9 +17,10 @@ internal class EntriesViewModel(
             it.copy(entries = getLatestEntries().getOrDefault(emptyList()))
         }
         EntriesEvent.AddNew -> consume {
+            navigator.onAddEntry()
         }
         is EntriesEvent.EditEntry -> consume {
-            val (selected) = event
+            navigator.onEditEntry(event.selected.id)
         }
     }
 }

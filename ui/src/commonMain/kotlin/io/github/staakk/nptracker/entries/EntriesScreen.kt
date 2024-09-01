@@ -1,5 +1,6 @@
 package io.github.staakk.nptracker.entries
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -18,25 +19,28 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Clear
 import androidx.compose.material3.FilterChip
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import io.github.staakk.nptracker.Dimens
+import io.github.staakk.nptracker.domain.Entry
 import io.github.staakk.nptracker.shared.EntryCompact
+import io.github.staakk.nptracker.shared.NptFab
 import org.koin.compose.currentKoinScope
+import org.koin.core.parameter.parametersOf
 
 @Composable
-fun EntriesScreen() {
+fun EntriesScreen(navigator: EntriesScreenNavigator) {
     val koinScope = currentKoinScope()
-    val viewModel = viewModel { koinScope.get<EntriesViewModel>() }
+    val viewModel = viewModel {
+        koinScope.get<EntriesViewModel> { parametersOf(navigator) }
+    }
     val state by viewModel.state.collectAsState()
     ScreenContent(state, viewModel::dispatch)
 }
@@ -45,21 +49,10 @@ fun EntriesScreen() {
 private fun ScreenContent(state: EntriesState, dispatch: (EntriesEvent) -> Unit) {
     Scaffold(
         floatingActionButton = {
-            FloatingActionButton(
-                onClick = {},
-                shape = RoundedCornerShape(100),
-            ) {
-                Row(
-                    modifier = Modifier
-                        .padding(Dimens.standard),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Icon(Icons.Filled.Add, contentDescription = null)
-                    Spacer(Modifier.width(Dimens.half))
-                    Text("Add new")
-                }
-
-            }
+            NptFab(
+                text = "Add new",
+                onClick = { dispatch(EntriesEvent.AddNew) }
+            )
         }
     ) { padding ->
         Column(
@@ -73,13 +66,24 @@ private fun ScreenContent(state: EntriesState, dispatch: (EntriesEvent) -> Unit)
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(Dimens.standard)
             ) {
-                items(state.entries.size, { state.entries[it].id }) {
-                    val item = state.entries[it]
-                    EntryCompact(item)
+                items(state.entries.size, { state.entries[it].id.value }) { index ->
+                    Item(
+                        entry = state.entries[index],
+                        onClick = { dispatch(EntriesEvent.EditEntry(it)) }
+                    )
                 }
             }
         }
     }
+}
+
+@Composable
+private fun Item(entry: Entry, onClick: (Entry) -> Unit) {
+    EntryCompact(
+        entry,
+        modifier = Modifier
+            .clickable { onClick(entry) }
+    )
 }
 
 @Composable

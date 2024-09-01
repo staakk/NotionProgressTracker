@@ -37,6 +37,7 @@ import androidx.compose.ui.window.PopupProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
 import io.github.staakk.nptracker.Dimens
 import io.github.staakk.nptracker.domain.Entry
+import io.github.staakk.nptracker.domain.EntryId
 import io.github.staakk.nptracker.domain.Repetitions
 import io.github.staakk.nptracker.domain.Weight
 import io.github.staakk.nptracker.domain.WeightFormatter
@@ -111,6 +112,7 @@ private fun LastEntries(
             item {
                 EntryCompact(
                     item = Entry(
+                        id = EntryId(it.toString()),
                         exercise = "Dead lift",
                         repetitions = Repetitions(10),
                         weight = 120f.kg,

@@ -6,7 +6,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
 data class Entry(
-    val id: String = "",
+    val id: EntryId,
     val exercise: String = "",
     val repetitions: Repetitions = Repetitions(0),
     val weight: Weight = 0.kg,

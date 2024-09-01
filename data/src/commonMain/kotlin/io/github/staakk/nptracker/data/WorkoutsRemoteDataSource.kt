@@ -4,6 +4,7 @@ import io.github.staakk.nptracker.data.model.JsonColumnProperty
 import io.github.staakk.nptracker.data.model.JsonQueryRequest
 import io.github.staakk.nptracker.data.model.JsonResultProperty
 import io.github.staakk.nptracker.domain.Entry
+import io.github.staakk.nptracker.domain.EntryId
 import io.github.staakk.nptracker.domain.Repetitions
 import io.github.staakk.nptracker.domain.Weight
 import io.github.staakk.nptracker.domain.WorkoutsDataSource
@@ -44,7 +45,7 @@ class WorkoutsRemoteDataSource(
         .mapCatching { response ->
             response.results.map {
                 Entry(
-                    id = it.id,
+                    id = EntryId(it.id),
                     exercise = (it.properties[PropertyExercise] as JsonResultProperty.Select).select.name,
                     repetitions = (it.properties[PropertyRepetitions] as JsonResultProperty.Number).number.toInt()
                         .let(::Repetitions),

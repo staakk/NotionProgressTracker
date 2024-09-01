@@ -1,6 +1,7 @@
 package io.github.staakk.nptracker.editentry
 
 import io.github.staakk.nptracker.domain.Entry
+import io.github.staakk.nptracker.domain.EntryId
 import io.github.staakk.nptracker.domain.usecase.GetAvailableExercises
 import io.github.staakk.nptracker.editentry.EntryEvent.ConfirmClicked
 import io.github.staakk.nptracker.editentry.EntryEvent.DateChanged
@@ -16,6 +17,7 @@ internal class EntryViewModel(
 ) : MviViewModel<EntryScreenState, EntryEvent>(
     EntryScreenState(
         entry = Entry(
+            id = EntryId("fake_id"),
             exercise = "Dead lift",
         ),
         availableExercises = listOf(

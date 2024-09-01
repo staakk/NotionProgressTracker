@@ -23,6 +23,7 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun EntryCompact(
     item: Entry,
+    modifier: Modifier = Modifier,
     exercise: @Composable (String) -> Unit = { Text(it) }
 ) {
     Row(
@@ -32,7 +33,8 @@ fun EntryCompact(
                 MaterialTheme.colorScheme.secondaryContainer,
                 RoundedCornerShape(Dimens.standard),
             )
-            .padding(horizontal = Dimens.standard, vertical = Dimens.half),
+            .padding(horizontal = Dimens.standard, vertical = Dimens.half)
+            .then(modifier),
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         exercise(item.exercise)
